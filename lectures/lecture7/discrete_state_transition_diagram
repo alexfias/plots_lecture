@@ -1,0 +1,39 @@
+import matplotlib.pyplot as pltl
+import numpy as np
+
+# Define grid parameters
+T = 6  # Number of time steps
+states = 8  # Number of states per time step
+colors = ['red', 'blue', 'purple', 'orange', 'brown', 'green']  # Colors for each column
+
+# Generate grid points
+x = np.repeat(range(1, T+1), states)
+y = np.tile(range(states), T)
+
+# Create figure
+fig, ax = plt.subplots(figsize=(6, 5))
+
+# Plot the nodes
+for t in range(T):
+    ax.scatter([t+1]*states, range(states), color=colors[t], s=150, edgecolors='black', zorder=2)
+
+# Define a sample path (indexing from top = 0)
+path = [(0, 1), (1, 2), (2, 2), (3, 3), (4, 2), (5, 4)]  # (time, state) pairs
+
+# Plot the path
+for i in range(len(path) - 1):
+    t1, s1 = path[i]
+    t2, s2 = path[i+1]
+    ax.annotate("", xy=(t2+1, s2), xytext=(t1+1, s1),
+                arrowprops=dict(arrowstyle="->", lw=2))
+
+# Labels and aesthetics
+ax.set_xticks(range(1, T+1))
+ax.set_xticklabels([f'T={t}' for t in range(1, T+1)], fontsize=12)
+ax.set_yticks([])
+ax.set_xlim(0.5, T+0.5)
+ax.set_ylim(-0.5, states-0.5)
+ax.set_frame_on(False)  # Remove frame
+
+# Show the plot
+plt.show()
